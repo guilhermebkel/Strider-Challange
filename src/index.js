@@ -34,9 +34,7 @@ const countRedPixels = (pixels) => {
             redPixelsCounter++;
         }
     }
-
     console.log('The amount of red pixels on the image is: ', redPixelsCounter);
-
 }
 
 // Turns all the not red pixels in white, and save a new image
@@ -62,12 +60,10 @@ const keepOnlyRedPixels = (pixels) => {
     // Saves a new image focusing
     // only on red pixels.
     fs.createReadStream(imagePath)
-      .pipe(new PNG())
-      .on('parsed', function() {
-    
-        this.data = pixels;
-        this.pack().pipe(fs.createWriteStream('./src/db/challenge_strider_redpixels.png'));
-        console.log("Image with only red pixels was sucessfully saved!");
-
+        .pipe(new PNG())
+        .on('parsed', function() {
+            this.data = pixels;
+            this.pack().pipe(fs.createWriteStream('./src/db/challenge_strider_redpixels.png'));
+            console.log("Image with only red pixels was sucessfully saved!");
     });
 }
