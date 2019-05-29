@@ -2,11 +2,8 @@ const {join} = require('path');
 const fs = require('fs');
 const PNG = require('pngjs').PNG;
 
-// Configures the Image Path
 const imagePath = join(__dirname , './db/', `challenge_strider.png`);
-
-const redColorRGB = ['255', '0', '0'];
-const rgbaLength = 4;
+const redColorRGBA = ['255', '0', '0', '255'];
 
 // Decodes the Image and works
 // on the pixels got from it.
@@ -27,8 +24,8 @@ const countRedPixels = (pixels) => {
     // If it finds red color pixels based on
     // decimal red color code, it increments
     // the redPixelsCounter variable.
-    for(let i=0; i<(pixels.length); i+=rgbaLength){
-        if(pixels[i] == redColorRGB[0] && pixels[i+1] == redColorRGB[1] && pixels[i+2] == redColorRGB[2]){
+    for(let i=0; i<(pixels.length); i+=redColorRGBA.length){
+        if(pixels[i] == redColorRGBA[0] && pixels[i+1] == redColorRGBA[1] && pixels[i+2] == redColorRGBA[2]){
             redPixelsCounter++;
         }
     }
@@ -38,21 +35,20 @@ const countRedPixels = (pixels) => {
 // Turns all the not red pixels in black, and save a new image
 const keepOnlyRedPixels = (pixels) => {
 
-    // Black color code in RGB
-    const blackColorRGB = ['0', '0', '0'];
+    const blackColorRGBA = ['0', '0', '0', '255'];
 
     // If the pixels don't belong to red 
     // color turns it into black color.
-    for(let i=0; i<(pixels.length); i+=rgbaLength){
-        if(pixels[i] == redColorRGB[0] && pixels[i+1] == redColorRGB[1] && pixels[i+2] == redColorRGB[2]){
-            pixels[i] = redColorRGB[0];
-            pixels[i+1] = redColorRGB[1];
-            pixels[i+2] = redColorRGB[2];
+    for(let i=0; i<(pixels.length); i+=redColorRGBA.length){
+        if(pixels[i] == redColorRGBA[0] && pixels[i+1] == redColorRGBA[1] && pixels[i+2] == redColorRGBA[2]){
+            pixels[i] = redColorRGBA[0];
+            pixels[i+1] = redColorRGBA[1];
+            pixels[i+2] = redColorRGBA[2];
         }
         else{
-            pixels[i] = blackColorRGB[0];
-            pixels[i+1] = blackColorRGB[1];
-            pixels[i+2] = blackColorRGB[2];
+            pixels[i] = blackColorRGBA[0];
+            pixels[i+1] = blackColorRGBA[1];
+            pixels[i+2] = blackColorRGBA[2];
         }
     }
     
@@ -73,18 +69,18 @@ const findPatternOnRedPixels = (pixels) => {
                     'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     let newArray = [];
 
-    for(let i=0; i<(pixels.length); i+=rgbaLength){
-        if(pixels[i] == redColorRGB[0] && pixels[i+1] == redColorRGB[1] && pixels[i+2] == redColorRGB[2]){
+    for(let i=0; i<(pixels.length); i+=redColorRGBA.length){
+        if(pixels[i] == redColorRGBA[0] && pixels[i+1] == redColorRGBA[1] && pixels[i+2] == redColorRGBA[2]){
             newArray.push("red");
         }
         else{
-            newArray.push([pixels[i], pixels[i+1], pixels[i+2]]);
+            newArray.push([pixels[i], pixels[i+1], pixels[i+2], pixels[i+3]]);
         }
     }
     for(let i=0; i<newArray.length; i++){
         if(newArray[i] == "red"){
             process.stdout.write(alphabet[i%alphabet.length]);
-            console.log(i);
         }
     }
+    console.log("");
 }
