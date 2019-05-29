@@ -11,7 +11,6 @@ fs.createReadStream(imagePath)
     .pipe(new PNG())
     .on('parsed', function() {
         countRedPixels(this.data);
-        findPatternOnRedPixels(this.data);
         keepOnlyRedPixels(this.data);
 });
 
@@ -61,26 +60,4 @@ const keepOnlyRedPixels = (pixels) => {
             this.pack().pipe(fs.createWriteStream('./src/db/challenge_strider_redpixels.png'));
             console.log("Image with only red pixels was sucessfully saved!");
     });
-}
-
-const findPatternOnRedPixels = (pixels) => {
-
-    let alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-    let newArray = [];
-
-    for(let i=0; i<(pixels.length); i+=redColorRGBA.length){
-        if(pixels[i] == redColorRGBA[0] && pixels[i+1] == redColorRGBA[1] && pixels[i+2] == redColorRGBA[2]){
-            newArray.push("red");
-        }
-        else{
-            newArray.push([pixels[i], pixels[i+1], pixels[i+2], pixels[i+3]]);
-        }
-    }
-    for(let i=0; i<newArray.length; i++){
-        if(newArray[i] == "red"){
-            process.stdout.write(alphabet[i%alphabet.length]);
-        }
-    }
-    console.log("");
 }
